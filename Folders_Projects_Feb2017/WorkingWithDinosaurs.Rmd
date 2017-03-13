@@ -1,0 +1,24 @@
+---
+title: "Working with your dinosauR"
+author: "APB"
+date: "13/03/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Working with Your dinosauR, who learned base R, and not the tidyverse.
+
+We are acutely aware that in moving our teaching material to the tidyverse, and particularly ggplot2 and dplyr for graphing and data manipulation, we have created as situation where students may be learning how to do things differently than their supervisors, fellow students, post-docs and people/help groups they interact with online for help.
+
+The good news is that the statistics have not changed.  But getting to the point where you do the statistics - e.g. making a good figure before you start analysing the data - has changed.
+
+In our book, we provide a few tables with comparative code from dplyr and base R.  Here we expand a bit on this, providing a New R User template for speaking and interacting with your pet dinosauR.
+
+### Messing with your data: dplyr vs. base
+
+![OldNew](old_new_comparison_table.pdf)
+
+### Messing with your graphs: ggplot2 vs. base (vs. lattice)
