@@ -48,15 +48,15 @@ Each of these is a _path_ and defines a route to the __AnalysisFolder_ on your c
 
 Because there are folders 'nested' inside folders, and ultimately files inside these folders, we call this a `directory hierarchy'. It has a __nested structure__.
 
-NOTE - if you store stuff on your desktop (yes, many do), don't forget that the Desktop _is_ formally a folder too.... really.  It is.
+Note that some people don't do this...  or don't seem to.  If you (or they) store stuff on your (their) desktop (yes, many do), don't forget that the Desktop _is_ formally a folder too.... really.  It is.  It also has a path.
 
 ## Three Ways to Achieve the Same End
-The remainder of this post is about three different ways to achieve the same end.  All of them work.  It allows a bit of flexibility in how you do things.  It also allows people still not using RStudio (gasp) to achieve the same ends in two ways!
+The remainder of this post is about three different ways to achieve the same end.  All of them work.  It allows a bit of flexibility in how you do things.  It also allows people still not using RStudio (gasp) to achieve almost the same ends in two ways!  This can be good if you, like us, work with some hard to change dinosaurs!
 
 The three ways are labelled as follows:
 
 1. Script and Data in the SAME FOLDER
-2. Script and Data in DIFFERENT FOLDERS
+2. Script and Data in DIFFERENT FOLDERS (The Relatie Path Method)
 3. The RStudio Project.
 
 The first 2 'ways' are agnostic to whether you are using RStudio.  The third, obviously.... requires RStudio!
@@ -120,7 +120,7 @@ In the latest version of RStudio (this is written with 1.0.136), the Import Data
 
 The RStudio functionality allows you to import lots of different types of files.  We won't go into detail about why we still recommend .csv files for storage, but suffice it to say, if you use `RStudio->File->ImportDataset->Browse`, the dialogue box that comes up will AUTOMATICALLY be looking in the folder in which the script you've opened is living.
 
-![The RStudio DataImport Dialogue box is looking at my working directory (folder) by default if I opened the script by double clicking it.](FileImportBox_RStudio.png)
+![The RStudio DataImport Dialogue box is looking at my working directory (folder) by default if I opened the script by double clicking it.](images/FileImportBox_RStudio.png)
 
 #### Using `read.csv()` or `read_csv()` in your script.
 If you look carefully above, there is a _Code Preview_ in the lower right hand corner of the big dialogue box.  It indicates that RStudio is using the library `readr` and that it is using the function `read_csv()` to import the data.
@@ -151,12 +151,23 @@ This is a strong indication that this method is weak on the 'reset' R idea....
 
 TOP TIP 2: Note that with this method, `rm(list = ls())` is not necessary.  If you start RStudio/R _fresh_ (e.g. it is _not_ running) by clicking on a script inside a folder with the data, it is effectively a _reset_.
 
-## METHOD 2: Script and Data in the Different Folders
+## METHOD 2:Script and Data in DIFFERENT FOLDERS (The Relatie Path Method)
 
 Dylan to Add Relative File Path Shite
 
 ## METHOD 3: The RStudio Project
 
-Projects Detail
+Of course, we leave it to last to point out that the friendly neighbourhood Open Source RStudio gurus have put a lot of thought into this.  In fact, back to our twitter interaction, they thought a lot about the 'reset' and the working directory.  And then there were Projects
+
+#### What it does
+
+#### How to make it
+
+![Step 1: File -> New Project](images/Step_1_File_NewProject.png)
+![Step 2: Blank Project](images/Step_2_EmptyProject.png)
+
+![Step 3: Name the Project and put the folder in a known or new directory](images/Step_3_NameProject.png)
+
+![Step 4: Notice that the 'path' to this folder and the project is all over the place - you can't miss it.](images/Step_4_NoticeThings.png)
 
 
