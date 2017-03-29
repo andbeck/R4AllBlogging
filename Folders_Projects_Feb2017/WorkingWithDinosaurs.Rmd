@@ -2,15 +2,16 @@
 title: "Working with your dinosauR"
 author: "The R4All Team"
 date: "13/03/2017"
-output: html_document
+output: 
+  html_document: 
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-#####_'We will one day all be dinosauRs'_
 
-## Working with your dinosauR, who learned base R, and not the tidyverse.
+_'We will one day all be dinosauRs'_
 
 Fashion happens, even in R.  It seems like everyone HAS to learn the tidyverse, and at least the data management tools of dplyr and the graphing tools of ggplot2.  It's so hot!  It is quite cool. But it has created dinosauRs - people weaned and reared on the milk of base R.  base R is nutritious and good.  But it scares the new tidypeople.  And the base R dinosauRs are sometimes scared or even ambivalent to tidypeople.   
 
@@ -22,21 +23,11 @@ But, getting to the point where you do  statistics - e.g. organising your data a
 
 This blog post is designed to highlight some of what changed. It's also designed to help you in 'working with dinosauRs'.  What follows is a set of examples of doing things in base R and dplyr or ggplot2.  It is not exhaustive.  Just a primer for liaising with dinosauRs.
 
-### Messing with your data: dplyr vs. base
-In our book, we provide a table with comparative code from dplyr and base R.  Here we expand a bit on this, providing a New R User and new tidyperson template for speaking and interacting with your pet dinosauR.
 
-```{r, out.width = "800px", echo = FALSE}
-knitr::include_graphics('old_new_comparison_table.pdf')
-```
-
-#### dplyr review
-dplyr is a toolbox with a set of functions, each optimised to do one thing and one thing very well, and very fast. It is also designed to help you by first giving the data frame (or more likely [tibble](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html)) in which all of your variables are stored, and then asking for things to happen.  This is a highly standardised toolbox.  We like this.
-
-Lets work with three examples  - getting a column, getting rows and subsetting your data based on values of a variable. We look at base and dplyr methods to do each.  
-
-To run the code, you'll need to download the dataset `compensation.csv` from the R4All website (get the zip file of all the datasets, upack it, and you'll see the `compensation.csv` dataset.
+# Two ways to import data
 
 First we load some packages and import the data. But we import the data each of two ways, the base way and the tidyverse way.
+
 
 ```{r, message = FALSE}
 # libraries you need
@@ -61,7 +52,25 @@ compensation_tv
 ```
 
 
-#### SELECT a column with dplyr
+
+# Messing with your data: dplyr vs. base
+
+In our book, we provide a table with comparative code from dplyr and base R.  Here we expand a bit on this, providing a New R User and new tidyperson template for speaking and interacting with your pet dinosauR.
+
+```{r, out.width = "800px", echo = FALSE}
+knitr::include_graphics('old_new_comparison_table.pdf')
+```
+
+dplyr is a toolbox with a set of functions, each optimised to do one thing and one thing very well, and very fast. It is also designed to help you by first giving the data frame (or more likely [tibble](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html)) in which all of your variables are stored, and then asking for things to happen.  This is a highly standardised toolbox.  We like this.
+
+Lets work with three examples  - getting a column, getting rows and subsetting your data based on values of a variable. We look at base and dplyr methods to do each.  
+
+To run the code, you'll need to download the dataset `compensation.csv` from the R4All website (get the zip file of all the datasets, upack it, and you'll see the `compensation.csv` dataset.
+
+
+
+## Get columns with dplyr
+
 With dplyr, we can select a column with one function two ways:
 
 ```{r}
@@ -74,7 +83,8 @@ select(compensation_tv, Fruit)
 
 The important detail here is that `dplyr` functions alway take the data frame as the first argument and ALWAYS return a `tibble`.
 
-#### SELECT a column with base R
+## Get columns with base R
+
 How can you do this in base R?  What might you see from the dinosauRs?  Well, lots of different ways to do the 'same' thing.... almost.  Lets look at 4 ways, and see what happens.
 
 ```{r}
@@ -95,10 +105,13 @@ What do we notice?  Well, not only are there 4 ways to do the same thing, only o
 
 What are the other three returning?  They are returning vectors... e.g. just the numbers. They are not organised into a single column data frame with a column lable called Fruit.  This might be what you want sometimes... it might not other times.  Keep in mind that this, we believe, is one of the fun bits of R.
 
-#### Select a Row with dplyr
+
+
+## Get a row (or some rows) with dplyr
+
 Selecting rows in R is also as variable as selecting columns.
 
-Lets recall the dplyr method - `slice()`
+Lets recall the dplyr method - `slice()` or `filter()`
 
 ```{r}
 slice(compensation_tv, 2) # get the second row
@@ -106,7 +119,15 @@ slice(compensation_tv, 2) # get the second row
 
 Notice that again, dplyr function `slice()` starts with the data frame as it's first argument, and then specifies the row number.  And importantly, we now have a 1 row, 3 column data frame.
 
-#### Select a Row with base R
+Lets recall how dplyr does this using `filter()`
+
+```{r}
+filter(compensation_tv, Fruit > 80)
+```
+
+
+## Get a row (or some rows) with base R
+
 Base R provides one way to do this.
 
 ```{r}
@@ -116,7 +137,7 @@ compensation_br[2,]
 
 Note where the comma is, and that the outcome is the same (it's got the right numbers) AND it has returned a data frame.  Interesting.... eh?
 
-#### Subset or Filter by a Variable using base R
+
 The final bit of base-dplyr punch up we want to compare involves subsetting your data.  Lets imaging we want to return all rows that have Fruit values > 80 kg.  Lets work through several ways to do this with base R, and then shift to dplyr.
 
 ```{r}
@@ -127,18 +148,9 @@ compensation_br[compensation_br$Fruit>80,]
 subset(compensation_br, subset = Fruit > 80)
 ```
 
-OK.  Good news.  Both produce the same output, and both return a data frame.  
 
-#### Subset or Filter by a Variable using dplyr
-Lets recall how dplyr does this using `filter()`
+#### Getting some rows and some coluns... the grand challenge
 
-```{r}
-filter(compensation_tv, Fruit > 80)
-```
-
-Notice the similarities between `subset()` and `filter()`.  
-
-#### Filter and select... the grand challenge
 However, lets try and make this a bit more complicated to see how different base methods stack up to dplyr tools.  Lets now not only request `Fruit > 80`, but also JUST return the Root values where `Fruit > 80`.
 
 ```{r}
@@ -176,18 +188,25 @@ compensation_tv %>%
 
 Nice!  This captures the order in which you want things to happen, without thinking from the inside out.  Neither way of thinking is right or wrong, we note.  And with the dplyr functions, you always always deliver a data frame and get a data frame.
 
-#### SUMMARY
-base R and dplyr ship with tools that perform very similar functions  The thing to remember with R and with your dinosaurRs, is that they are all good.  Just remember that dplyr is way more consistent in what it takes - always a data frame - and returns - always a data frame.  dplyr functions always, also, do one thing.  For example, `subset()` from base R can do two things... select and filter.  
+
+## Summary
+
+Base R and dplyr ship with tools that perform very similar functions  The thing to remember with R and with your dinosaurRs, is that they are all good.  Just remember that dplyr is way more consistent in what it takes - always a data frame - and returns - always a data frame.  dplyr functions always, also, do one thing.  For example, `subset()` from base R can do two things... select and filter.  
 
 Just remember to think about what you want before you start!
 
-### Messing with your graphs: ggplot2 vs. base (vs. lattice)
+
+
+
+
+# Messing with your graphs: ggplot2 vs. base (vs. lattice)
 
 We might as well add a little bit of base graphics versus ggplot2 for the fun of it.  
 
 We'll make a 2 colour graph that corresponds to an ANCOVA model scenario - e.g. a continuous and a categorical explanatory/independent variable, and a numerical response/dependent variable.  We'll use the same data.
 
-#### The dinosauR may do something like this.
+## Some base graphics
+
 If you want to see more of these base graphics, feel free to consult the web, or our 1st edition book.
 
 We adhere to the principle, in base graphics, that the question you are asking and the data you are plotting go hand-in-hand.  With the data we are using lets use Fruit as our response variable and Root as the continuous explanatory variable, and Grazing as our categorical explanatory variable.  Lets assume that we are looking at Fruit set on apple trees as a function of the grafted root stock width and whether cows have been allowed to graze underneath them or not (reducing competition by eating the grass, of course).
@@ -224,7 +243,7 @@ legend('topleft', col=c('brown','green'),
        pch = 19, legend = c("Grazed","Ungrazed"))
 ```
 
-#### The ggplot2 hipsteR might do something like this.
+## The ggplot2 hipsteR might do something like this.
 Doing most of this in ggplot2 is easy, and some would suggest easier.  There are some things that are easier, and some that simply require knowing that base and ggplot2 graphics each have their own vocabulary.  Lets see what we can do.
 
 We begin with the foundation layer of the graph.  Just the points, axes and labels.
@@ -274,5 +293,10 @@ ggplot(compensation_tv, aes(x = Root, y = Fruit, colour = Grazing))+
   theme_bw()
 ```
 
-### Summary
+## Summary
+
 There you have it.  A quick introduction to the dinosauR you may be working with or have to collaborate with.  Don't get angry at the dinosauR.  base R is awesome and does a great many things a great deal goodly.  Most of the time, base v. tidyverse is not a battle at all. But... this is not only a tutorial to handle the dinosauR, but something the dinosauR can use to start gettin' hip with the youngsteRs.
+
+# But... respect your DinosauRs
+
+No disaster has wiped out the DinosauRs, or wiped out how they use R. They will still be very effective. Some of the DinosauRs will be very impressive animals. So don't write them off, and realise that there will likely be a lot to learn from them. Respect your dinosauRs! 
