@@ -14,13 +14,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Fashion happens, even in R.  It seems like everyone HAS to learn the tidyverse, and at least the data management tools of dplyr and the graphing tools of ggplot2.  It's so hot!  It is quite cool. But it has created dinosauRs - people weaned and reared on the milk of base R.  base R is nutritious and good.  But it scares the new tidypeople.  And the base R dinosauRs are sometimes scared or even ambivalent to tidypeople.   
 
-Why change? It's consistent, fast, effective and makes working with data and graphs for data wrangling, data science and plain old science more easy and more fun like.  We think. But it is not required, and not the end of the world if someone doesn't know or use it.
+Why change? It's consistent, fast, effective and makes working with data and graphs for data wrangling, data science and plain old science more easy and more fun.  We think. But it is not required, and not the end of the world if someone doesn't know or use it.
 
-And we are acutely aware that in moving our teaching material and our book, _Getting Started with R: An Introduction for Biologist_ to the tidyverse, and particularly to ggplot2 and dplyr for graphing and data manipulation, we have created as situation where students may be learning how to do things differently than their supervisors, fellow students, post-docs and people/help groups they interact with online for help.  We are acutely aware, because it's happened around us, with our own students and colleagues.  This isn't bad.  It is fun.  Really.
+And we are acutely aware that in moving our teaching material and our book, _Getting Started with R: An Introduction for Biologist_ to the tidyverse, and particularly to ggplot2 and dplyr for graphing and data manipulation, we have created a situation where students may be learning how to do things differently than their supervisors, fellow students, post-docs and people/help groups they interact with online for help.  We are acutely aware, because it's happened around us, with our own students and colleagues.  This isn't bad.  It is fun.  Really.
 
-But, getting to the point where you do  statistics - e.g. organising your data and making a good figure before you start analysing the data - well, this has changed for tidypeople.  But in reality, the reality is that there are just now more ways to do things than before. 
+But, getting to the point where you do  statistics - e.g. organising your data and making a good figure before you start analysing the data - well, this has changed for tidypeople.  This reflects the reality is that there are just now more ways to do things than before. One way or another, we'll become dinosauRs.
 
-This blog post is designed to highlight some of what has changed. It is also designed to help you in 'working with dinosauRs'.  What follows is a set of examples of doing things in base R and dplyr or ggplot2.  It is not exhaustive.  Just a primer for liaising with dinosauRs.
+This blog post is designed to highlight some of what changed. It's also designed to help you in 'working with dinosauRs'.  What follows is a set of examples of doing things in base R and dplyr or ggplot2.  It is not exhaustive.  Just a primer for liaising with dinosauRs.
 
 ### Messing with your data: dplyr vs. base
 In our book, we provide a table with comparative code from dplyr and base R.  Here we expand a bit on this, providing a New R User and new tidyperson template for speaking and interacting with your pet dinosauR.
@@ -30,62 +30,68 @@ knitr::include_graphics('old_new_comparison_table.pdf')
 ```
 
 #### dplyr review
-dplyr is a toolbox with a set of functions, each optimised to do one thing and one thing very well, and very fast. It is also designed to help you by first declaring the data frame name (dataset) in which all of your variables are stored, and then asking for things to happen.  This is a highly standardised toolbox.  We like this.
+dplyr is a toolbox with a set of functions, each optimised to do one thing and one thing very well, and very fast. It is also designed to help you by first giving the data frame (or more likely [tibble](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html)) in which all of your variables are stored, and then asking for things to happen.  This is a highly standardised toolbox.  We like this.
 
 Lets work with three examples  - getting a column, getting rows and subsetting your data based on values of a variable. We look at base and dplyr methods to do each.  
 
-Lets get setup with the packages and the data:
+To run the code, you'll need to download the dataset `compensation.csv` from the R4All website (get the zip file of all the datasets, upack it, and you'll see the `compensation.csv` dataset.
+
+First we load some packages and import the data. But we import the data each of two ways, the base way and the tidyverse way.
 
 ```{r, message = FALSE}
 # libraries you need
 library(dplyr)
 library(ggplot2)
+library(readr)
 
-# we assume you have downloaded the dataset from Getting Started with R
-# LINK:
+# get the data into R with the base R function
+compensation_br <- read.csv('compensation.csv')
 
+## get the data into R with the tidyverse function
+compensation_tv <- read_csv('compensation.csv')
 
-# get the data into R using read.csv().
-compensation <- read.csv('compensation.csv')
-
-# glimpse or str it.
-glimpse(compensation)
-str(compensation)
 ```
 
-Oh my... we are already using base and dplyr!
+(In case you didn't spot the difference, its the full stop or underscore between `read`and `csv`.)
+
+What's the difference here? One big one is `read.csv`  converts character variables to factors. Many people prefer this doesn't happen automatically (`read_csv` doesn't do this). Another is `read.csv` creates a `data.frame` while `read_csv`creates a `tibble`. One nice thing about a `tibble` is how it looks in the Console -- a much more considerate view than one often get with a big dataframe:
+
+```{r}
+compensation_tv
+```
+
 
 #### SELECT a column with dplyr
 With dplyr, we can select a column with one function two ways:
 
 ```{r}
 # use select().  The first argument is the data frame and the second is the column.
-select(compensation, Fruit)
+select(compensation_tv, Fruit)
 
 # or
-# select(compensation, 2) # gets the second column, which is Fruit!
+# select(compensation_tv, 2) # gets the second column, which is Fruit!
 ```
 
-The important detail here is that dplyr functions alway take the data frame as the first argument and ALWAYS return a data frame object.
+The important detail here is that `dplyr` functions alway take the data frame as the first argument and ALWAYS return a `tibble`.
 
 #### SELECT a column with base R
 How can you do this in base R?  What might you see from the dinosauRs?  Well, lots of different ways to do the 'same' thing.... almost.  Lets look at 4 ways, and see what happens.
 
 ```{r}
 # Base Method 1: $
-compensation$Fruit
+compensation_br$Fruit
 
 # Base Method 2: [, 'column name' ]
-compensation[,'Fruit']
+compensation_br[,'Fruit']
 
 # Base Method 3: [, column_number]
-compensation[,2]
+compensation_br[,2]
 
 # Base Method 4: subset()
-subset(compensation, select = Fruit)
+subset(compensation_br, select = Fruit)
 ```
 
-What do we notice?  Well, not only are there 4 ways to do the same thing, only one of them actually returns 'exactly' what dplyr's select() does, a data frame of Fruit.  Which one?  `subset()`.
+What do we notice?  Well, not only are there 4 ways to do the same thing, only one of them actually returns 'exactly' what `dplyr`'s select() does, a data frame of Fruit.  Which one?  `subset()`.
 
 What are the other three returning?  They are returning vectors... e.g. just the numbers. They are not organised into a single column data frame with a column lable called Fruit.  This might be what you want sometimes... it might not other times.  Keep in mind that this, we believe, is one of the fun bits of R.
 
@@ -95,7 +101,7 @@ Selecting rows in R is also as variable as selecting columns.
 Lets recall the dplyr method - `slice()`
 
 ```{r}
-slice(compensation, 2) # get the second row
+slice(compensation_tv, 2) # get the second row
 ```
 
 Notice that again, dplyr function `slice()` starts with the data frame as it's first argument, and then specifies the row number.  And importantly, we now have a 1 row, 3 column data frame.
@@ -105,7 +111,7 @@ Base R provides one way to do this.
 
 ```{r}
 # Base Method 1: [ ]
-compensation[2,]
+compensation_br[2,]
 ```
 
 Note where the comma is, and that the outcome is the same (it's got the right numbers) AND it has returned a data frame.  Interesting.... eh?
@@ -115,10 +121,10 @@ The final bit of base-dplyr punch up we want to compare involves subsetting your
 
 ```{r}
 # Base Method 1: [ ]
-compensation[compensation$Fruit>80,]
+compensation_br[compensation_br$Fruit>80,]
 
 #Base Method 2: subset()
-subset(compensation, subset = Fruit > 80)
+subset(compensation_br, subset = Fruit > 80)
 ```
 
 OK.  Good news.  Both produce the same output, and both return a data frame.  
@@ -127,23 +133,23 @@ OK.  Good news.  Both produce the same output, and both return a data frame.
 Lets recall how dplyr does this using `filter()`
 
 ```{r}
-filter(compensation, Fruit > 80)
+filter(compensation_tv, Fruit > 80)
 ```
 
 Notice the similarities between `subset()` and `filter()`.  
 
 #### Filter and select... the grand challenge
-However, lets try and make this a bit more complicated to see how different base methods stack up to dplyr tools.  Lets now not only request Fruit > 80, but also JUST return the Root values where Fruit > 80.
+However, lets try and make this a bit more complicated to see how different base methods stack up to dplyr tools.  Lets now not only request `Fruit > 80`, but also JUST return the Root values where `Fruit > 80`.
 
 ```{r}
 # Base Method 1: [ ] + $
-compensation[compensation$Fruit>80,]$Root
+compensation_br[compensation_br$Fruit>80,]$Root
 
 # Base Method 2: subset() + $
-subset(compensation, subset = Fruit > 80)$Root
+subset(compensation_br, subset = Fruit > 80)$Root
 
 #Base Method 2: subset()
-subset(compensation, subset = Fruit > 80, select = Root)
+subset(compensation_br, subset = Fruit > 80, select = Root)
 ```
 
 Notice three things here.  First, Base Method 1 involves `[ ]` and `$`.  It also now returns a vector, not a data frame.  Second, Base Method 2, using `subset()` and $ also returns a vector.  `subset()` actually returns a data frame, but $ returns a vector.  Base Method 3 uses only `subset()` and returns a data frame and reveals that the function `subset()` has two arguments that are indeed quite handy: `susbet =` and `select =`.  Very nice indeed.
@@ -153,17 +159,17 @@ What do we need to do to replicate the functionality of subset() in dplyr?  Give
 The nested method follows old skool ideas in R.  Functions within functions are evaluated from the inside out.
 
 ```{r}
-select(filter(compensation, Fruit>80), Root) # nested method
+select(filter(compensation_tv, Fruit>80), Root) # nested method
 ```
 
 Here, `filter()` is first evaluated, producing a data frame, followed by applying to this new dataframe, on-the-fly, the `select()` function.
 
-However, dplyr ships with another package built in... magrittr.  It's quite awesome.
+However, dplyr ships with another package built in... `magrittr`.  It's quite awesome.
 
 magritter has a function `%>%` that is called the pipe.  It passes the stuff-on-the-left to the thing-on-the-right.  It works by starting with the data frame, and passing it on to a function that does stuff, and passing this stuff on to other functions that do stuff.... like this.
 
 ```{r}
-compensation %>% 
+compensation_tv %>% 
   filter(Fruit>80) %>% 
     select(Root) # piping method
 ```
@@ -189,7 +195,7 @@ We adhere to the principle, in base graphics, that the question you are asking a
 The `plot()` function that is at the heart of base graphics can take a formulae as it's first argument.  We always like(d) this.  We start with the _regression_ part of the model - `Fruit ~ Root` where `~` translates "is a function of...". Lets also not forget that `plot()` takes a data argument too.
 
 ```{r}
-plot(Fruit ~ Root, data = compensation)
+plot(Fruit ~ Root, data = compensation_br)
 ```
 
 At this point, and to keep this focused, lets decide on a few things to do to this graph:
@@ -200,7 +206,7 @@ At this point, and to keep this focused, lets decide on a few things to do to th
 4)Add a legend in the top left
 
 ```{r}
-plot(Fruit ~ Root, data = compensation, 
+plot(Fruit ~ Root, data = compensation_br, 
     # double the font size with cex (character expansion
     # make the points solid (filled) using pch (point character)
     cex = 2, pch = 19,
@@ -224,7 +230,7 @@ Doing most of this in ggplot2 is easy, and some would suggest easier.  There are
 We begin with the foundation layer of the graph.  Just the points, axes and labels.
 
 ```{r}
-ggplot(compensation, aes(x = Root, y = Fruit))+
+ggplot(compensation_tv, aes(x = Root, y = Fruit))+
   geom_point()
 ```
 
@@ -242,7 +248,7 @@ Lets customise it in the same way.  We'll come back to explain some of the synta
 4) Add a legend.... (!)
 
 ```{r}
-ggplot(compensation, aes(x = Root, y = Fruit, colour = Grazing))+
+ggplot(compensation_tv, aes(x = Root, y = Fruit, colour = Grazing))+
   geom_point(size = 2)+
   xlab("Root Stock (mm)") + ylab("Fruit Harvest (kg)")+
   theme_bw()
@@ -261,7 +267,7 @@ All of this is handy dandy.  However, people ALWAYS wonder how to change the col
 In ggplot2, for this kind of graph, there is a good way to do this.
 
 ```{r}
-ggplot(compensation, aes(x = Root, y = Fruit, colour = Grazing))+
+ggplot(compensation_tv, aes(x = Root, y = Fruit, colour = Grazing))+
   geom_point(size = 2)+
   xlab("Root Stock (mm)") + ylab("Fruit Harvest (kg)")+
   scale_colour_manual(values = c(Grazed = 'brown', Ungrazed = 'green'))+
