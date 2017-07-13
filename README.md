@@ -1,2 +1,2 @@
 # R4AllBlogging
-Blog Posts for R4All and GSwithR
+Owen moved everything in here to the [blogging folder of the R4All website repo](https://github.com/R4All/r4all_website).
