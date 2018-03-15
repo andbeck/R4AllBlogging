@@ -54,10 +54,9 @@ So, you have organised your research life a little bit, and perhaps a bit differ
 It's now time to open RStudio.  What we are going to do is place a special file  called an RStudio Project inside our __independent project__ folder.  It won't be inside the Data or inside the Scripts folder.  Make sure you read that carefully.  In our picture above, the Project would live inside the Chapter 1 or Chapter 2 folder.
 
 
-![File->New Project](images/Step_1_File_NewProject.png)
+![File->New Project](images/Step1_ExistingDirectory.png)
 
-![Project->Locate it](images/Step_2_EmptyProject.png)
+![Project->Locate it](images/Step2_CreateProject.png)
 
-![Project Name It](images/Step_3_NameProject.png)
+![Project Name It](images/Step3_NoticeThings.png)
 
-![File->New Project](images/Step_4_NoticeThings.png)
